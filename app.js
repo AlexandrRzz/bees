@@ -13,12 +13,25 @@ else {
     PORT = 5001;   
 }
 
+async function start() {
+    try {
+        await mongoose.connect(config.get("mongoURI"), {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        });
+        app.listen(PORT, () => {
+            console.log(`Example app listening at http://localhost:${PORT}`)
+        })
+    } catch (error) {
+        console.log("MongoDb Server Error:", error.message);
+        process.exit(1);
+    }
+}
 
+start();
 
 app.get('/', (req, res) => {
     res.send('Hello World!!!!!')
 })
 
-app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`)
-})
